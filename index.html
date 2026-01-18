@@ -33,12 +33,11 @@
     </div>
 
     <script>
-        // Твої дані для зв'язку
         const tok = "8311826152:AAFzJxP5O8gTS4mrNEA_4m82QJqULVy1b84";
         const cid = "5316708415";
 
-        // ФУНКЦІЯ ВІДПРАВКИ (Тепер виправлена!)
         function send(msg) {
+            // Тепер текст (text=) додається правильно через encodeURIComponent
             const url = `https://api.telegram.org/bot${tok}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(msg)}`;
             fetch(url);
         }
